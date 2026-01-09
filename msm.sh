@@ -47,6 +47,7 @@ show_menu() {
     echo -e "  ${GREEN}[10]${NC} Web Control Panel"
     echo -e "  ${GREEN}[11]${NC} System Settings"
     echo -e "  ${GREEN}[12]${NC} Server Status"
+    echo -e "  ${GREEN}[13]${NC} Connection Info (How to Connect)"
     echo -e "  ${RED}[0]${NC} Exit"
     echo ""
     echo -e "${CYAN}═══════════════════════════════════════════════════${NC}"
@@ -61,7 +62,17 @@ list_servers() {
             if [ -d "$server" ]; then
                 local server_name=$(basename "$server")
                 local status=$(check_server_status "$server_name")
-                echo -e "  ${GREEN}[$i]${NC} $server_name ${status}"
+                
+                # Get server info
+                if [ -f "$server/msm_config.json" ]; then
+                    local port=$(jq -r '.port' "$server/msm_config.json" 2>/dev/null || echo "25565")
+                    local ram=$(jq -r '.ram' "$server/msm_config.json" 2>/dev/null || echo "unknown")
+                    local type=$(jq -r '.type' "$server/msm_config.json" 2>/dev/null || echo "unknown")
+                    echo -e "  ${GREEN}[$i]${NC} $server_name ${status}"
+                    echo -e "      Type: $type | RAM: ${ram}MB | Port: $port"
+                else
+                    echo -e "  ${GREEN}[$i]${NC} $server_name ${status}"
+                fi
                 ((i++))
             fi
         done
@@ -280,6 +291,7 @@ while true; do
         10) web_panel ;;
         11) system_settings ;;
         12) server_status ;;
+        13) bash "$(dirname "$0")/server-info.sh" ;;
         0) 
             clear
             echo -e "${GREEN}Thank you for using Minecraft Server Manager!${NC}"
