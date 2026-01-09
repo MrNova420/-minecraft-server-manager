@@ -531,14 +531,14 @@ class PerformanceTuner:
 cd "{server_path}"
 
 # Load JVM flags
-JVM_FLAGS=$(cat jvm_flags.txt)
+JVM_FLAGS=$(cat jvm_flags.txt 2>/dev/null || echo "")
 
-# Start server with resource limits
-taskset -c 0-{int(config['cores'])-1} java $JVM_FLAGS \\
+# Start server (taskset not available on Termux)
+java $JVM_FLAGS \\
     -Xms{config['ram']}M \\
     -Xmx{config['ram']}M \\
     -jar {config['jar_file']} \\
-    --nogui
+    nogui
 """
         
         script_path = server_path / "start.sh"

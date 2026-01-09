@@ -294,14 +294,14 @@ class ServerCreator:
 cd "{server_path}"
 
 # Load JVM flags
-JVM_FLAGS=$(cat jvm_flags.txt)
+JVM_FLAGS=$(cat jvm_flags.txt 2>/dev/null || echo "")
 
-# Start server with resource limits
-taskset -c 0-{int(config['cores'])-1} java $JVM_FLAGS \\
+# Start server (taskset not available on Termux)
+java $JVM_FLAGS \\
     -Xms{config['ram']}M \\
     -Xmx{config['ram']}M \\
     -jar {config['jar_file']} \\
-    --nogui
+    nogui
 """
         
         script_path = server_path / "start.sh"
@@ -331,27 +331,18 @@ enable-query=false
             f.write(properties)
     
     def create_jvm_flags(self, server_path, ram):
-        """Create optimized JVM flags"""
+        """Create optimized JVM flags for Termux/Android"""
+        # Simplified flags that work on Android
         flags = """-XX:+UseG1GC
 -XX:+ParallelRefProcEnabled
 -XX:MaxGCPauseMillis=200
 -XX:+UnlockExperimentalVMOptions
--XX:+DisableExplicitGC
--XX:+AlwaysPreTouch
 -XX:G1NewSizePercent=30
 -XX:G1MaxNewSizePercent=40
 -XX:G1HeapRegionSize=8M
 -XX:G1ReservePercent=20
--XX:G1HeapWastePercent=5
--XX:G1MixedGCCountTarget=4
 -XX:InitiatingHeapOccupancyPercent=15
--XX:G1MixedGCLiveThresholdPercent=90
--XX:G1RSetUpdatingPauseTimePercent=5
--XX:SurvivorRatio=32
--XX:+PerfDisableSharedMem
 -XX:MaxTenuringThreshold=1
--Dusing.aikars.flags=https://mcflags.emc.gs
--Daikars.new.flags=true
 """
         with open(server_path / "jvm_flags.txt", "w") as f:
             f.write(flags)
