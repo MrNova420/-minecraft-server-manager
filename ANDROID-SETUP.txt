@@ -1,0 +1,144 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║         📱 MINECRAFT SERVER MANAGER - ANDROID/TERMUX SETUP 📱            ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+🚀 QUICK START ON YOUR ANDROID DEVICE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣  INSTALL TERMUX (If not installed)
+    Download from F-Droid: https://f-droid.org/packages/com.termux/
+    ⚠️  DO NOT use Play Store version!
+
+2️⃣  UPDATE TERMUX
+    pkg update && pkg upgrade
+    (Type 'y' when prompted)
+
+3️⃣  INSTALL DEPENDENCIES
+    pkg install openjdk-17 python screen wget curl git
+    (Takes 5-10 minutes)
+
+4️⃣  INSTALL PYTHON PACKAGES
+    pip install psutil requests flask tqdm colorama
+
+5️⃣  GRANT STORAGE PERMISSION
+    termux-setup-storage
+    (Allow when prompted)
+
+6️⃣  NAVIGATE TO PROJECT
+    cd ~/minecraft-server-manager
+
+7️⃣  RUN TEST
+    bash test-termux.sh
+    (Verify all tests pass)
+
+8️⃣  RUN INSTALLER
+    bash install.sh
+    (This sets up directories)
+
+9️⃣  START MANAGER
+    bash msm.sh
+
+🔟  CREATE YOUR FIRST SERVER!
+    - Select [1] Create New Server
+    - Follow the prompts
+    - Wait for download
+    - Start and play!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🐛 FIXES FOR COMMON ISSUES:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PROBLEM: Menu keeps looping back
+FIX: This is now fixed! Menu waits for Enter key.
+
+PROBLEM: Server won't start  
+FIX: 
+  - Check Java: java -version
+  - Install if missing: pkg install openjdk-17
+  - Check RAM: free -m
+  - Lower RAM allocation in server config
+
+PROBLEM: Web dashboard won't start
+FIX:
+  - Install Flask: pip install flask flask-cors
+  - Or: pkg install python-flask
+  - Then: python core/web_panel.py
+
+PROBLEM: Permission denied
+FIX:
+  chmod +x msm.sh
+  chmod +x core/*.py
+
+PROBLEM: Command not found
+FIX:
+  Use "bash msm.sh" instead of "./msm.sh"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 RECOMMENDED SETTINGS FOR YOUR DEVICE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LOW-END (2-3GB RAM):
+  Server: Paper
+  RAM: 1536 MB
+  Cores: 1-2
+  Players: 5-10
+  View: 6
+
+MID-RANGE (4-6GB RAM):
+  Server: Paper/Purpur
+  RAM: 2048-3072 MB
+  Cores: 2-3
+  Players: 10-20
+  View: 8-10
+
+HIGH-END (6GB+ RAM):
+  Server: Purpur
+  RAM: 4096+ MB
+  Cores: 3-4
+  Players: 20-50+
+  View: 10-12
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚡ ESSENTIAL COMMANDS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Start manager:       bash msm.sh
+Test system:         bash test-termux.sh
+Web panel:           python core/web_panel.py
+Resource monitor:    python core/resource_monitor.py
+Server console:      screen -r msm-<servername>
+Detach console:      Ctrl+A then D
+Keep awake:          termux-wake-lock
+Find your IP:        ifconfig wlan0 | grep inet
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📱 TIPS FOR ANDROID HOSTING:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ Keep device plugged in
+✓ Enable "Stay awake" in Developer Options
+✓ Close other apps to free RAM
+✓ Use WiFi, not mobile data
+✓ Keep device cool (use fan if needed)
+✓ Enable termux-wake-lock to prevent sleep
+✓ Use Paper/Purpur for best performance
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📖 MORE HELP:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Read: TERMUX-README.md
+Read: README.md
+Read: QUICKSTART.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ YOU'RE READY! Start hosting Minecraft servers from your Android phone! 🎮
+

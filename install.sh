@@ -30,30 +30,15 @@ echo -e "${CYAN}[INFO]${NC} Creating directory structure..."
 mkdir -p "$DATA_DIR" "$SERVERS_DIR" "$BACKUPS_DIR" "$PLUGINS_DIR" "$MODS_DIR"
 
 echo -e "${CYAN}[INFO]${NC} Updating Termux packages..."
-pkg update -y && pkg upgrade -y
+yes | pkg update 2>/dev/null
+yes | pkg upgrade 2>/dev/null
 
 echo -e "${CYAN}[INFO]${NC} Installing core dependencies..."
-pkg install -y \
-    openjdk-17 \
-    openjdk-21 \
-    python \
-    nodejs \
-    wget \
-    curl \
-    git \
-    tar \
-    gzip \
-    unzip \
-    screen \
-    htop \
-    ncurses-utils \
-    proot \
-    termux-api \
-    jq
+yes | pkg install -y openjdk-17 python wget curl git tar gzip unzip screen htop ncurses-utils termux-api jq 2>/dev/null
 
 echo -e "${CYAN}[INFO]${NC} Installing Python dependencies..."
-pip install --upgrade pip
-pip install psutil requests tqdm colorama flask flask-cors pyyaml
+pip install --upgrade pip 2>/dev/null
+pip install psutil requests tqdm colorama flask flask-cors pyyaml 2>/dev/null
 
 echo -e "${CYAN}[INFO]${NC} Setting up permissions..."
 termux-setup-storage
@@ -75,7 +60,7 @@ EOF
 
 echo -e "${CYAN}[INFO]${NC} Setting up executable permissions..."
 chmod +x "$INSTALL_DIR"/*.sh 2>/dev/null
-chmod +x "$INSTALL_DIR"/*.py 2>/dev/null
+chmod +x "$INSTALL_DIR"/core/*.py 2>/dev/null
 
 echo ""
 echo -e "${GREEN}╔══════════════════════════════════════════════════════════╗${NC}"
@@ -87,12 +72,4 @@ echo -e "  ${CYAN}1.${NC} Run: ${GREEN}./msm.sh${NC}"
 echo -e "  ${CYAN}2.${NC} Create a new server using the interactive menu"
 echo -e "  ${CYAN}3.${NC} Configure RAM, CPU cores, and server type"
 echo -e "  ${CYAN}4.${NC} Start your server and enjoy!"
-echo ""
-echo -e "${YELLOW}Features:${NC}"
-echo -e "  ${CYAN}•${NC} Multiple server types (Vanilla, Paper, Spigot, Forge, Fabric, etc.)"
-echo -e "  ${CYAN}•${NC} Full resource control (RAM, CPU cores, storage)"
-echo -e "  ${CYAN}•${NC} Plugin & mod management"
-echo -e "  ${CYAN}•${NC} Automatic backups"
-echo -e "  ${CYAN}•${NC} Performance monitoring"
-echo -e "  ${CYAN}•${NC} Web-based control panel"
 echo ""

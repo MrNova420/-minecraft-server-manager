@@ -141,8 +141,7 @@ create_server() {
         --cores "$cores"
     
     echo ""
-    echo -e "${GREEN}[SUCCESS]${NC} Server created successfully!"
-    sleep 2
+    read -p "Press Enter to continue..." dummy
 }
 
 start_server() {
@@ -154,24 +153,28 @@ start_server() {
     echo -e "${YELLOW}Enter server name to start:${NC}"
     read -p "> " server_name
     
+    if [ -z "$server_name" ]; then
+        return
+    fi
+    
     if [ ! -d "$SERVERS_DIR/$server_name" ]; then
         echo -e "${RED}[ERROR]${NC} Server not found"
-        sleep 2
+        read -p "Press Enter to continue..." dummy
         return
     fi
     
     if screen -list | grep -q "msm-$server_name"; then
         echo -e "${YELLOW}[WARN]${NC} Server is already running"
-        sleep 2
+        read -p "Press Enter to continue..." dummy
         return
     fi
     
+    echo ""
+    echo -e "${CYAN}[INFO]${NC} Starting server..."
     python3 "$(dirname "$0")/core/server_manager.py" start "$server_name"
     
     echo ""
-    echo -e "${GREEN}[SUCCESS]${NC} Server started!"
-    echo -e "${CYAN}[INFO]${NC} Use option [5] to access console"
-    sleep 2
+    read -p "Press Enter to continue..." dummy
 }
 
 stop_server() {
@@ -183,17 +186,22 @@ stop_server() {
     echo -e "${YELLOW}Enter server name to stop:${NC}"
     read -p "> " server_name
     
-    if ! screen -list | grep -q "msm-$server_name"; then
-        echo -e "${YELLOW}[WARN]${NC} Server is not running"
-        sleep 2
+    if [ -z "$server_name" ]; then
         return
     fi
     
+    if ! screen -list | grep -q "msm-$server_name"; then
+        echo -e "${YELLOW}[WARN]${NC} Server is not running"
+        read -p "Press Enter to continue..." dummy
+        return
+    fi
+    
+    echo ""
+    echo -e "${CYAN}[INFO]${NC} Stopping server..."
     python3 "$(dirname "$0")/core/server_manager.py" stop "$server_name"
     
     echo ""
-    echo -e "${GREEN}[SUCCESS]${NC} Server stopped!"
-    sleep 2
+    read -p "Press Enter to continue..." dummy
 }
 
 server_console() {
@@ -205,9 +213,13 @@ server_console() {
     echo -e "${YELLOW}Enter server name:${NC}"
     read -p "> " server_name
     
+    if [ -z "$server_name" ]; then
+        return
+    fi
+    
     if ! screen -list | grep -q "msm-$server_name"; then
         echo -e "${RED}[ERROR]${NC} Server is not running"
-        sleep 2
+        read -p "Press Enter to continue..." dummy
         return
     fi
     
