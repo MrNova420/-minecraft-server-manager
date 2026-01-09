@@ -42,6 +42,7 @@ show_menu() {
     echo -e "  ${GREEN}[5]${NC} Server Console"
     echo -e "  ${GREEN}[6]${NC} Resource Monitor"
     echo -e "  ${GREEN}[7]${NC} Plugin/Mod Manager"
+    echo -e "  ${BOLD}${MAGENTA}[15]${NC} ${BOLD}Easy Plugin/Mod Installer${NC}"
     echo -e "  ${GREEN}[8]${NC} Backup Manager"
     echo -e "  ${GREEN}[9]${NC} Performance Tuning"
     echo -e "  ${GREEN}[10]${NC} Web Control Panel"
@@ -49,6 +50,7 @@ show_menu() {
     echo -e "  ${GREEN}[12]${NC} Server Status"
     echo -e "  ${GREEN}[13]${NC} Connection Info (How to Connect)"
     echo -e "  ${BOLD}${YELLOW}[14]${NC} ${BOLD}Diagnose Connection Issues${NC}"
+    echo -e "  ${BOLD}${CYAN}[16]${NC} ${BOLD}Test All Systems${NC}"
     echo -e "  ${RED}[0]${NC} Exit"
     echo ""
     echo -e "${CYAN}═══════════════════════════════════════════════════${NC}"
@@ -308,6 +310,8 @@ while true; do
         12) server_status ;;
         13) bash "$(dirname "$0")/server-info.sh" ;;
         14) bash "$(dirname "$0")/diagnose.sh" ;;
+        15) bash "$(dirname "$0")/add-plugin.sh" ;;
+        16) bash "$(dirname "$0")/test-all.sh" ;;
         0) 
             clear
             echo -e "${GREEN}Thank you for using Minecraft Server Manager!${NC}"
