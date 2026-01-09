@@ -1,0 +1,160 @@
+╔══════════════════════════════════════════════════════════════╗
+║     MINECRAFT SERVER MANAGER - QUICK REFERENCE               ║
+╚══════════════════════════════════════════════════════════════╝
+
+📱 MAIN MENU
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+bash msm.sh
+
+🎯 ESSENTIAL COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+bash test-all.sh              # Test system (run first!)
+bash msm.sh                   # Main control panel
+bash add-plugin.sh            # Easy plugin/mod installer
+bash diagnose.sh              # Connection diagnostic
+bash server-info.sh           # Get connection info
+
+🎮 SERVER TYPES (14 Total)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+JAVA EDITION:
+[1] Vanilla         [2] Paper ⭐         [3] Spigot
+[4] Purpur          [5] Fabric          [6] Forge
+[7] NeoForge
+
+BEDROCK EDITION:
+[10] Bedrock (Mobile/Console)
+
+CROSSPLAY (Java + Bedrock):
+[11] Paper+Geyser ⭐         [12] Fabric+Geyser
+[13] Purpur+Geyser          [14] Spigot+Geyser
+
+PROXY:
+[8] BungeeCord              [9] Velocity
+
+🚀 QUICK START (3 STEPS)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. bash test-all.sh                    # Verify system
+2. bash msm.sh → [1] → [11]           # Create crossplay server
+3. bash msm.sh → [3] → [13]           # Start & get IP
+
+🔌 INSTALL PLUGINS/MODS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+bash add-plugin.sh            # Easy installer (10 popular plugins!)
+
+OR MANUALLY:
+# Plugins (Paper/Spigot/Purpur)
+cp plugin.jar ~/.msm/servers/NAME/plugins/
+
+# Mods (Fabric/Forge/NeoForge)
+cp mod.jar ~/.msm/servers/NAME/mods/
+
+Then: bash msm.sh → [4] Stop → [3] Start
+
+🩺 TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+bash diagnose.sh                              # Auto-diagnose
+tail -50 ~/.msm/servers/NAME/logs/latest.log  # View logs
+screen -list | grep msm                       # Check running
+ps aux | grep java                            # Check Java process
+ifconfig | grep "inet "                       # Get your IP
+
+📂 IMPORTANT DIRECTORIES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+~/.msm/servers/NAME/              # Server directory
+~/.msm/servers/NAME/plugins/      # Plugins folder
+~/.msm/servers/NAME/mods/         # Mods folder
+~/.msm/servers/NAME/server.properties  # Config file
+~/.msm/servers/NAME/logs/latest.log    # Log file
+~/.msm/backups/                   # Backups
+
+🌐 CONNECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+JAVA EDITION:     192.168.x.x:25565
+BEDROCK EDITION:  192.168.x.x:19132
+                  (Enter IP and Port separately!)
+
+🎮 SERVER CONSOLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+screen -r msm-NAME           # Attach to console
+Ctrl+A then D               # Detach from console
+
+Common commands in console:
+  op PlayerName              # Make admin
+  whitelist add PlayerName   # Add to whitelist
+  stop                       # Stop server
+
+📚 DOCUMENTATION FILES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+COMPLETE-GUIDE.md           # Full quick start guide
+SERVER-TYPES-GUIDE.md       # All 14 types explained
+CONNECTION-FIX.md           # Troubleshooting guide
+BEDROCK-CROSSPLAY.md        # Crossplay setup
+ALL-READY.md                # Final checklist
+README.md                   # Complete documentation
+
+💡 POPULAR PLUGINS (One-Click Install!)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+bash add-plugin.sh → [3] Popular plugins
+  • EssentialsX - Commands, warps, kits
+  • LuckPerms - Permission management
+  • WorldEdit - World editing tools
+  • WorldGuard - Area protection
+  • CoreProtect - Anti-grief logging
+  • Dynmap - Live web map
+  • Vault - Economy API
+  • Citizens - NPC plugin
+  • ChestShop - Player shops
+  • Multiverse-Core - Multiple worlds
+
+⚙️ CONFIGURATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Edit: ~/.msm/servers/NAME/server.properties
+
+Key settings:
+  server-port=25565        # Change port
+  max-players=20           # Max players
+  difficulty=normal        # Difficulty
+  gamemode=survival        # Default mode
+  online-mode=true         # Auth (false = offline)
+  server-ip=0.0.0.0       # Listen on all IPs
+
+📊 RECOMMENDED SPECS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5-10 PLAYERS:
+  Java:     2-3GB RAM, 2GB storage
+  Crossplay: 3-4GB RAM, 3GB storage
+  Bedrock:  1-2GB RAM, 1GB storage
+
+10-20 PLAYERS:
+  Java:     3-4GB RAM, 5GB storage
+  Crossplay: 4-5GB RAM, 6GB storage
+  Bedrock:  2-3GB RAM, 3GB storage
+
+✅ QUICK CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Before reporting issues:
+□ Ran: bash test-all.sh (all green ✓)
+□ Waited 30-60 seconds after starting
+□ Both devices on SAME WiFi
+□ Used correct IP (from ifconfig)
+□ Used correct port (25565 or 19132)
+□ Ran: bash diagnose.sh
+□ Checked server logs
+□ Have 2GB+ free RAM
+
+🆘 NEED HELP?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. bash test-all.sh              # System check
+2. bash diagnose.sh              # Connection check
+3. cat CONNECTION-FIX.md         # Read troubleshooting
+4. Share outputs from above if still stuck
+
+🎉 READY TO START!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Just run: bash msm.sh
+
+Have fun! 🎮
+
+╔══════════════════════════════════════════════════════════════╗
+║  📱 Mobile tip: Save this file for offline reference!       ║
+╚══════════════════════════════════════════════════════════════╝
