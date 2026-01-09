@@ -27,7 +27,9 @@ class ServerCreator:
             "6": {"name": "Forge", "download_func": self.download_forge},
             "7": {"name": "NeoForge", "download_func": self.download_neoforge},
             "8": {"name": "BungeeCord", "download_func": self.download_bungeecord},
-            "9": {"name": "Velocity", "download_func": self.download_velocity}
+            "9": {"name": "Velocity", "download_func": self.download_velocity},
+            "10": {"name": "Bedrock", "download_func": self.download_bedrock},
+            "11": {"name": "Paper+Geyser (Crossplay)", "download_func": self.download_paper_geyser}
         }
     
     def create_server(self, name, server_type, version, ram, cores):
@@ -269,6 +271,63 @@ class ServerCreator:
             print(f"\033[31m[ERROR]\033[0m {str(e)}")
             return None
     
+    def download_bedrock(self, server_path, version):
+        """Download Bedrock (Pocket Edition) server"""
+        try:
+            print(f"\033[33m[INFO]\033[0m Downloading Bedrock server...")
+            # Bedrock server download URL (Linux version for Termux)
+            download_url = "https://minecraft.azureedge.net/bin-linux/bedrock-server-1.20.81.01.zip"
+            
+            import zipfile
+            zip_path = server_path / "bedrock.zip"
+            self.download_file(download_url, zip_path)
+            
+            # Extract
+            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                zip_ref.extractall(server_path)
+            
+            zip_path.unlink()  # Delete zip
+            
+            # Bedrock uses bedrock_server binary
+            jar_path = server_path / "bedrock_server"
+            os.chmod(jar_path, 0o755)
+            
+            return jar_path
+        except Exception as e:
+            print(f"\033[31m[ERROR]\033[0m Bedrock download failed: {str(e)}")
+            return None
+    
+    def download_paper_geyser(self, server_path, version):
+        """Download Paper server + Geyser plugin for crossplay"""
+        try:
+            # First download Paper
+            print(f"\033[33m[INFO]\033[0m Downloading Paper server...")
+            jar_path = self.download_paper(server_path, version)
+            if not jar_path:
+                return None
+            
+            # Download Geyser plugin
+            print(f"\033[33m[INFO]\033[0m Downloading Geyser plugin for crossplay...")
+            plugins_dir = server_path / "plugins"
+            plugins_dir.mkdir(exist_ok=True)
+            
+            geyser_url = "https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot"
+            geyser_path = plugins_dir / "Geyser-Spigot.jar"
+            self.download_file(geyser_url, geyser_path)
+            
+            # Download Floodgate (allows Bedrock players without Java accounts)
+            print(f"\033[33m[INFO]\033[0m Downloading Floodgate plugin...")
+            floodgate_url = "https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot"
+            floodgate_path = plugins_dir / "Floodgate-Spigot.jar"
+            self.download_file(floodgate_url, floodgate_path)
+            
+            print(f"\033[32m[SUCCESS]\033[0m Crossplay enabled! Java players use port 25565, Bedrock players use port 19132")
+            
+            return jar_path
+        except Exception as e:
+            print(f"\033[31m[ERROR]\033[0m Geyser setup failed: {str(e)}")
+            return None
+    
     def download_file(self, url, destination):
         """Download file with progress bar"""
         response = requests.get(url, stream=True)
@@ -288,7 +347,20 @@ class ServerCreator:
     
     def create_start_script(self, server_path, config):
         """Create optimized start script"""
-        script_content = f"""#!/data/data/com.termux/files/usr/bin/bash
+        # Check if this is a Bedrock server
+        if config['type'] == 'Bedrock':
+            script_content = f"""#!/data/data/com.termux/files/usr/bin/bash
+# Auto-generated start script for {config['name']} (Bedrock)
+
+cd "{server_path}"
+export LD_LIBRARY_PATH=.
+
+# Start Bedrock server
+./bedrock_server
+"""
+        else:
+            # Java server start script
+            script_content = f"""#!/data/data/com.termux/files/usr/bin/bash
 # Auto-generated start script for {config['name']}
 
 cd "{server_path}"
@@ -311,7 +383,8 @@ java $JVM_FLAGS \\
     
     def create_server_properties(self, server_path, config):
         """Create optimized server.properties"""
-        properties = f"""server-port={config['port']}
+        properties = f"""server-ip=0.0.0.0
+server-port={config['port']}
 max-players=100
 view-distance=10
 simulation-distance=8
@@ -325,7 +398,9 @@ network-compression-threshold=256
 max-tick-time=60000
 use-native-transport=true
 enable-status=true
-enable-query=false
+enable-query=true
+query.port={config['port']}
+motd=Termux Minecraft Server - {config['name']}
 """
         with open(server_path / "server.properties", "w") as f:
             f.write(properties)

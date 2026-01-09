@@ -48,6 +48,7 @@ show_menu() {
     echo -e "  ${GREEN}[11]${NC} System Settings"
     echo -e "  ${GREEN}[12]${NC} Server Status"
     echo -e "  ${GREEN}[13]${NC} Connection Info (How to Connect)"
+    echo -e "  ${BOLD}${YELLOW}[14]${NC} ${BOLD}Diagnose Connection Issues${NC}"
     echo -e "  ${RED}[0]${NC} Exit"
     echo ""
     echo -e "${CYAN}═══════════════════════════════════════════════════${NC}"
@@ -123,6 +124,8 @@ create_server() {
     echo -e "  ${GREEN}[7]${NC} NeoForge (Latest Mods)"
     echo -e "  ${GREEN}[8]${NC} BungeeCord (Proxy)"
     echo -e "  ${GREEN}[9]${NC} Velocity (Modern Proxy)"
+    echo -e "  ${BOLD}${MAGENTA}[10]${NC} ${BOLD}Bedrock (Minecraft PE/Mobile)${NC}"
+    echo -e "  ${BOLD}${MAGENTA}[11]${NC} ${BOLD}Paper+Geyser (CROSSPLAY - Java + Bedrock)${NC}"
     read -p "> " server_type
     
     # Minecraft version
@@ -292,6 +295,7 @@ while true; do
         11) system_settings ;;
         12) server_status ;;
         13) bash "$(dirname "$0")/server-info.sh" ;;
+        14) bash "$(dirname "$0")/diagnose.sh" ;;
         0) 
             clear
             echo -e "${GREEN}Thank you for using Minecraft Server Manager!${NC}"
