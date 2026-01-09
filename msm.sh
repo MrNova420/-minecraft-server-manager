@@ -115,6 +115,8 @@ create_server() {
     # Server type
     echo ""
     echo -e "${YELLOW}Select server type:${NC}"
+    echo ""
+    echo -e "${BOLD}${CYAN}━━━ JAVA EDITION (PC/Mac) ━━━${NC}"
     echo -e "  ${GREEN}[1]${NC} Vanilla"
     echo -e "  ${GREEN}[2]${NC} Paper (Optimized - Recommended)"
     echo -e "  ${GREEN}[3]${NC} Spigot"
@@ -122,10 +124,20 @@ create_server() {
     echo -e "  ${GREEN}[5]${NC} Fabric (Mods)"
     echo -e "  ${GREEN}[6]${NC} Forge (Mods)"
     echo -e "  ${GREEN}[7]${NC} NeoForge (Latest Mods)"
-    echo -e "  ${GREEN}[8]${NC} BungeeCord (Proxy)"
-    echo -e "  ${GREEN}[9]${NC} Velocity (Modern Proxy)"
-    echo -e "  ${BOLD}${MAGENTA}[10]${NC} ${BOLD}Bedrock (Minecraft PE/Mobile)${NC}"
-    echo -e "  ${BOLD}${MAGENTA}[11]${NC} ${BOLD}Paper+Geyser (CROSSPLAY - Java + Bedrock)${NC}"
+    echo ""
+    echo -e "${BOLD}${CYAN}━━━ BEDROCK EDITION (Mobile) ━━━${NC}"
+    echo -e "  ${BOLD}${MAGENTA}[10]${NC} Bedrock (PE/iOS/Android/Console)"
+    echo ""
+    echo -e "${BOLD}${CYAN}━━━ CROSSPLAY (Java + Bedrock Together!) ━━━${NC}"
+    echo -e "  ${BOLD}${MAGENTA}[11]${NC} ${BOLD}Paper+Geyser${NC} (Best for crossplay)"
+    echo -e "  ${BOLD}${MAGENTA}[12]${NC} ${BOLD}Fabric+Geyser${NC} (Crossplay with mods)"
+    echo -e "  ${BOLD}${MAGENTA}[13]${NC} ${BOLD}Purpur+Geyser${NC} (High performance crossplay)"
+    echo -e "  ${BOLD}${MAGENTA}[14]${NC} ${BOLD}Spigot+Geyser${NC} (Classic crossplay)"
+    echo ""
+    echo -e "${BOLD}${CYAN}━━━ PROXY SERVERS ━━━${NC}"
+    echo -e "  ${GREEN}[8]${NC} BungeeCord"
+    echo -e "  ${GREEN}[9]${NC} Velocity"
+    echo ""
     read -p "> " server_type
     
     # Minecraft version

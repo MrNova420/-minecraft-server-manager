@@ -29,7 +29,10 @@ class ServerCreator:
             "8": {"name": "BungeeCord", "download_func": self.download_bungeecord},
             "9": {"name": "Velocity", "download_func": self.download_velocity},
             "10": {"name": "Bedrock", "download_func": self.download_bedrock},
-            "11": {"name": "Paper+Geyser (Crossplay)", "download_func": self.download_paper_geyser}
+            "11": {"name": "Paper+Geyser (Crossplay)", "download_func": self.download_paper_geyser},
+            "12": {"name": "Fabric+Geyser (Crossplay)", "download_func": self.download_fabric_geyser},
+            "13": {"name": "Purpur+Geyser (Crossplay)", "download_func": self.download_purpur_geyser},
+            "14": {"name": "Spigot+Geyser (Crossplay)", "download_func": self.download_spigot_geyser}
         }
     
     def create_server(self, name, server_type, version, ram, cores):
@@ -306,27 +309,102 @@ class ServerCreator:
             if not jar_path:
                 return None
             
-            # Download Geyser plugin
-            print(f"\033[33m[INFO]\033[0m Downloading Geyser plugin for crossplay...")
-            plugins_dir = server_path / "plugins"
-            plugins_dir.mkdir(exist_ok=True)
-            
-            geyser_url = "https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot"
-            geyser_path = plugins_dir / "Geyser-Spigot.jar"
-            self.download_file(geyser_url, geyser_path)
-            
-            # Download Floodgate (allows Bedrock players without Java accounts)
-            print(f"\033[33m[INFO]\033[0m Downloading Floodgate plugin...")
-            floodgate_url = "https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot"
-            floodgate_path = plugins_dir / "Floodgate-Spigot.jar"
-            self.download_file(floodgate_url, floodgate_path)
-            
-            print(f"\033[32m[SUCCESS]\033[0m Crossplay enabled! Java players use port 25565, Bedrock players use port 19132")
+            # Add Geyser and Floodgate
+            self.add_geyser_plugins(server_path, "spigot")
             
             return jar_path
         except Exception as e:
             print(f"\033[31m[ERROR]\033[0m Geyser setup failed: {str(e)}")
             return None
+    
+    def download_fabric_geyser(self, server_path, version):
+        """Download Fabric server + Geyser mod for crossplay"""
+        try:
+            # First download Fabric
+            print(f"\033[33m[INFO]\033[0m Downloading Fabric server...")
+            jar_path = self.download_fabric(server_path, version)
+            if not jar_path:
+                return None
+            
+            # Add Geyser Fabric version
+            self.add_geyser_plugins(server_path, "fabric")
+            
+            return jar_path
+        except Exception as e:
+            print(f"\033[31m[ERROR]\033[0m Fabric Geyser setup failed: {str(e)}")
+            return None
+    
+    def download_purpur_geyser(self, server_path, version):
+        """Download Purpur server + Geyser plugin for crossplay"""
+        try:
+            # First download Purpur
+            print(f"\033[33m[INFO]\033[0m Downloading Purpur server...")
+            jar_path = self.download_purpur(server_path, version)
+            if not jar_path:
+                return None
+            
+            # Add Geyser and Floodgate
+            self.add_geyser_plugins(server_path, "spigot")
+            
+            return jar_path
+        except Exception as e:
+            print(f"\033[31m[ERROR]\033[0m Purpur Geyser setup failed: {str(e)}")
+            return None
+    
+    def download_spigot_geyser(self, server_path, version):
+        """Download Spigot server + Geyser plugin for crossplay"""
+        try:
+            # First download Spigot
+            print(f"\033[33m[INFO]\033[0m Downloading Spigot server...")
+            jar_path = self.download_spigot(server_path, version)
+            if not jar_path:
+                return None
+            
+            # Add Geyser and Floodgate
+            self.add_geyser_plugins(server_path, "spigot")
+            
+            return jar_path
+        except Exception as e:
+            print(f"\033[31m[ERROR]\033[0m Spigot Geyser setup failed: {str(e)}")
+            return None
+    
+    def add_geyser_plugins(self, server_path, platform="spigot"):
+        """Add Geyser and Floodgate to server"""
+        print(f"\033[33m[INFO]\033[0m Adding Geyser for crossplay...")
+        
+        if platform == "fabric":
+            # For Fabric, use mods folder
+            mods_dir = server_path / "mods"
+            mods_dir.mkdir(exist_ok=True)
+            
+            # Geyser Fabric
+            geyser_url = "https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/fabric"
+            geyser_path = mods_dir / "Geyser-Fabric.jar"
+            self.download_file(geyser_url, geyser_path)
+            
+            # Floodgate Fabric
+            floodgate_url = "https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/fabric"
+            floodgate_path = mods_dir / "Floodgate-Fabric.jar"
+            self.download_file(floodgate_url, floodgate_path)
+            
+        else:
+            # For Spigot/Paper/Purpur, use plugins folder
+            plugins_dir = server_path / "plugins"
+            plugins_dir.mkdir(exist_ok=True)
+            
+            # Geyser Spigot
+            geyser_url = "https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot"
+            geyser_path = plugins_dir / "Geyser-Spigot.jar"
+            self.download_file(geyser_url, geyser_path)
+            
+            # Floodgate Spigot
+            floodgate_url = "https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot"
+            floodgate_path = plugins_dir / "Floodgate-Spigot.jar"
+            self.download_file(floodgate_url, floodgate_path)
+        
+        print(f"\033[32m[SUCCESS]\033[0m Crossplay enabled!")
+        print(f"\033[36m[INFO]\033[0m Java players → port 25565")
+        print(f"\033[36m[INFO]\033[0m Bedrock players → port 19132")
     
     def download_file(self, url, destination):
         """Download file with progress bar"""
